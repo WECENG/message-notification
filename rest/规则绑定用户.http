@@ -1,0 +1,11 @@
+###
+POST http://localhost:8080/message/rule/bindUser
+Content-Type: application/json
+
+{
+  "ruleId": "1549949770389823490",
+  "userIds": [
+    "user1",
+    "user2"
+  ]
+}

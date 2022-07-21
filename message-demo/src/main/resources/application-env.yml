@@ -1,0 +1,11 @@
+#common
+DEBBUG: true
+
+
+#datasource
+MYSQL_HOST: localhost
+MYSQL_PORT: 3306
+MYSQL_SCHEMA: message
+MYSQL_USER: root
+MYSQL_PASS: 123456
+INITIALIZATION_MODE: never

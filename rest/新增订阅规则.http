@@ -1,0 +1,15 @@
+###
+POST http://localhost:8080/message/rule
+Content-Type: application/json
+
+{
+  "moduleTag": "TEST1",
+  "moduleDescription": "测试模块1",
+  "details": [
+    {
+      "type": "role",
+      "key": "admin"
+    }
+  ],
+  "strongMatch": false
+}

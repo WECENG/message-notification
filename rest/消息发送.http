@@ -1,0 +1,10 @@
+###
+POST http://localhost:8080/mq/producer/send
+Content-Type: application/json
+
+{
+  "messageId": "123456123",
+  "broadcast": false,
+  "topic": "TEST1#role:admin",
+  "payload": "测试消息"
+}

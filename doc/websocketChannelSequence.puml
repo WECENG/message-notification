@@ -1,0 +1,50 @@
+@startuml
+participant Actor
+Actor -> NettyWebsocketHandler : channelRead0
+activate NettyWebsocketHandler
+NettyWebsocketHandler -> NettyWebsocketHandler : handleWebsocketFrame
+activate NettyWebsocketHandler
+NettyWebsocketHandler -> ChannelManager : addChannel
+activate ChannelManager
+ChannelManager --> NettyWebsocketHandler
+deactivate ChannelManager
+NettyWebsocketHandler -> ChannelManager : subscribe
+activate ChannelManager
+ChannelManager -> ChannelManager : λ→
+activate ChannelManager
+ChannelManager -> ChannelManager : λ→
+activate ChannelManager
+ChannelManager --> ChannelManager
+deactivate ChannelManager
+ChannelManager --> ChannelManager
+deactivate ChannelManager
+ChannelManager --> NettyWebsocketHandler
+deactivate ChannelManager
+NettyWebsocketHandler -> ChannelManager : removeChannel
+activate ChannelManager
+ChannelManager --> NettyWebsocketHandler
+deactivate ChannelManager
+NettyWebsocketHandler -> ChannelManager : unsubscribe
+activate ChannelManager
+ChannelManager -> ChannelManager : λ→
+activate ChannelManager
+ChannelManager -> ChannelManager : λ→
+activate ChannelManager
+ChannelManager -> ChannelManager : λ→
+activate ChannelManager
+ChannelManager -> ChannelManager : λ→
+activate ChannelManager
+ChannelManager --> ChannelManager
+deactivate ChannelManager
+ChannelManager --> ChannelManager
+deactivate ChannelManager
+ChannelManager --> ChannelManager
+deactivate ChannelManager
+ChannelManager --> ChannelManager
+deactivate ChannelManager
+ChannelManager --> NettyWebsocketHandler
+deactivate ChannelManager
+NettyWebsocketHandler --> NettyWebsocketHandler
+deactivate NettyWebsocketHandler
+return
+@enduml

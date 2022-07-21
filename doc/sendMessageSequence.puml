@@ -1,0 +1,50 @@
+@startuml
+participant Actor
+Actor -> MessageSendDemoController : doSendMsg
+activate MessageSendDemoController
+MessageSendDemoController -> MessageSubscribeRuleService : getRuleByParams
+activate MessageSubscribeRuleService
+MessageSubscribeRuleService -> MessageSubscribeRuleServiceImpl : getRuleByParams
+activate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl -> MessageSubscribeRuleServiceImpl : λ→
+activate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl -> MessageSubscribeRuleServiceImpl : λ→
+activate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl -> MessageSubscribeRuleServiceImpl : λ→
+activate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl -> MessageSubscribeRuleServiceImpl : descartes
+activate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl -> MessageSubscribeRuleServiceImpl : λ→
+activate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl -> MessageSubscribeRuleServiceImpl : λ→
+activate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl --> MessageSubscribeRuleServiceImpl
+deactivate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl --> MessageSubscribeRuleServiceImpl
+deactivate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl --> MessageSubscribeRuleServiceImpl
+deactivate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl --> MessageSubscribeRuleServiceImpl
+deactivate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl --> MessageSubscribeRuleServiceImpl
+deactivate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl --> MessageSubscribeRuleServiceImpl
+deactivate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleServiceImpl --> MessageSubscribeRuleService
+deactivate MessageSubscribeRuleServiceImpl
+MessageSubscribeRuleService --> MessageSendDemoController
+deactivate MessageSubscribeRuleService
+MessageSendDemoController -> MessageRequest : new
+activate MessageRequest
+MessageRequest --> MessageSendDemoController
+deactivate MessageRequest
+MessageSendDemoController -> MessageSendDemoController : λ→
+activate MessageSendDemoController
+MessageSendDemoController -> MessageProducerService : sendMessage
+activate MessageProducerService
+MessageProducerService --> MessageSendDemoController
+deactivate MessageProducerService
+MessageSendDemoController --> MessageSendDemoController
+deactivate MessageSendDemoController
+return
+@enduml

@@ -1,0 +1,10 @@
+# DataSource Config
+spring:
+  datasource:
+    name: master
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    schema: classpath:db/schema.sql
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_SCHEMA:message}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true&useSSL=false
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASS:123456}
+    initialization-mode: ${INITIALIZATION_MODE:always}

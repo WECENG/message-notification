@@ -1,0 +1,62 @@
+@startuml
+participant Actor
+Actor -> RabbitMessageListener : onMessage
+activate RabbitMessageListener
+RabbitMessageListener -> MessageRequest : new
+activate MessageRequest
+MessageRequest --> RabbitMessageListener
+deactivate MessageRequest
+RabbitMessageListener -> MessageReceiverService : receive
+activate MessageReceiverService
+MessageReceiverService -> DefaultMessageReceiverServiceImpl : receive
+activate DefaultMessageReceiverServiceImpl
+DefaultMessageReceiverServiceImpl -> MessageReceiverAspect : before
+activate MessageReceiverAspect
+MessageReceiverAspect -> MessageLogDO : new
+activate MessageLogDO
+MessageLogDO --> MessageReceiverAspect
+deactivate MessageLogDO
+MessageReceiverAspect -> MessageLogService : doCreateMessageLog
+activate MessageLogService
+MessageLogService -> MessageLogServiceImpl : doCreateMessageLog
+activate MessageLogServiceImpl
+MessageLogServiceImpl --> MessageLogService
+deactivate MessageLogServiceImpl
+MessageLogService --> MessageReceiverAspect
+deactivate MessageLogService
+MessageReceiverAspect --> DefaultMessageReceiverServiceImpl
+deactivate MessageReceiverAspect
+DefaultMessageReceiverServiceImpl -> MessageReceiverAspect : after
+activate MessageReceiverAspect
+MessageReceiverAspect -> ChannelManager : broadcast
+activate ChannelManager
+ChannelManager --> MessageReceiverAspect
+deactivate ChannelManager
+MessageReceiverAspect -> ChannelGroup : writeAndFlush
+activate ChannelGroup
+ChannelGroup --> MessageReceiverAspect
+deactivate ChannelGroup
+MessageReceiverAspect -> MessageReceiverAspect : λ→
+activate MessageReceiverAspect
+MessageReceiverAspect -> MessageReceiverAspect : λ→
+activate MessageReceiverAspect
+MessageReceiverAspect -> ChannelManager : findChannel
+activate ChannelManager
+ChannelManager --> MessageReceiverAspect
+deactivate ChannelManager
+MessageReceiverAspect -> ChannelOutboundInvoker : writeAndFlush
+activate ChannelOutboundInvoker
+ChannelOutboundInvoker --> MessageReceiverAspect
+deactivate ChannelOutboundInvoker
+MessageReceiverAspect --> MessageReceiverAspect
+deactivate MessageReceiverAspect
+MessageReceiverAspect --> MessageReceiverAspect
+deactivate MessageReceiverAspect
+MessageReceiverAspect --> DefaultMessageReceiverServiceImpl
+deactivate MessageReceiverAspect
+DefaultMessageReceiverServiceImpl --> MessageReceiverService
+deactivate DefaultMessageReceiverServiceImpl
+MessageReceiverService --> RabbitMessageListener
+deactivate MessageReceiverService
+return
+@enduml

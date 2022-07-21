@@ -1,0 +1,61 @@
+websocket:
+  server:
+    enable: true
+  # mq类型，rabbitmq、kafka、rocketmq
+  mq:
+    type: kafka
+  # websocket端口与uri
+  port: 8085
+  uri: /websocket
+# springboot整合rabbitmq的基本配置
+spring:
+  rabbitmq:
+    addresses: 127.0.0.1:5672
+    username: guest
+    password: guest
+    virtual-host: /
+    #生产端配置
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    # 消费端配置
+    listener:
+      simple:
+        concurrency: 5
+        acknowledge-mode: manual
+        max-concurrency: 10
+        prefetch: 1
+#spring整合kafka配置
+  kafka:
+    bootstrap-servers: 172.31.103.185:9092
+    topic: topicA
+    consumer:
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      isolation-level: read_committed
+      key-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: bossMqConsumer
+      properties:
+        spring:
+          json:
+            trusted:
+              #添加信任包路径
+              packages: org.message.serviceapi.dto,org.message.dto
+    producer:
+      acks: all
+      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    listener:
+      missing-topics-fatal: false
+# rocketmq配置
+rocketmq:
+  name-server: 127.0.0.1:9876
+  topic: bossMqTopic
+  consumer:
+    group: bossMqConsumerGroup
+    acess-key: boss
+    secret-key: qinghua123@
+  producer:
+    group: bossMqProducerGroup
+    access-key: boss
+    secret-key: qinghua123@

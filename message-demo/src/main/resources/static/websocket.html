@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WSS 消息订阅测试页面</title>
+</head>
+<script>
+    const wsUrl = "ws://127.0.0.1:8085/websocket"; // websocket 默认连接地址
+    let websocket; // 用于存储实例化后websocket
+    let needReconnect = false; // 连接成功过后需要设置发送间隔
+    let websocketTimeout = 0; // 保存重连延迟函数
+    const pingPong = {
+        mesType: 'PINGPONG'
+    }
+    const subscribe = {
+        mesType: 'SUBSCRIBE',
+        topicList: ['topicA', 'topicB']
+    }
+    const unSubscribe = {
+        mesType: 'UNSUBSCRIBE',
+        topicList: ['topicA', 'topicB']
+    }
+    function mes(messageId)  {
+        return{
+            "messageId": messageId,
+            "topic": "topicA",
+            "broadcast": false,
+            "payload": "消息内容"
+        }
+    }
+    //设置心跳配置,定时发送信息，确保连接成功
+    const heartCheck = {
+        timeout: 3000, // 定时发送socket
+        timeoutSend: 0, // 发送socket延迟函数
+        serverTimeoutNumber: 0, //延迟关闭连接
+        reset() {
+            this.clear();
+            this.start();
+        },
+        start() { // socket连接发送
+            const self = this;
+            this.timeoutSend = window.setTimeout(() => {
+                if (websocket) {
+                    websocket.send(JSON.stringify(pingPong));
+                    self.serverTimeoutNumber = window.setTimeout(() => {
+                        if (websocket) {
+                            websocket.close();
+                        }
+                    }, self.timeout);
+                }
+            }, this.timeout);
+        },
+        clear() { //清除定时器
+            clearTimeout(this.timeoutSend);
+            clearTimeout(this.serverTimeoutNumber);
+        },
+    }
+
+    /**
+     * 连接websocket
+     * @param url 连接地址
+     * @returns
+     */
+    function openSocket(url = "") {
+        if (!url) {
+            url = wsUrl;
+        }
+        websocket = null;
+        needReconnect = true;
+        // 监听websocket
+        watchSocket(url);
+    }
+
+    /**
+     * 连接socket并且监听socket
+     * @param url
+     */
+    function watchSocket(url) {
+        const client = getWebsocket(url);
+
+        // 消息接收
+        client.onmessage = (data) => {
+            heartCheck.reset();
+            console.log('-onmessage-收到的消息为--', data);
+            receiveMessage(data);
+        }
+
+        // 连接已准备好
+        client.onopen = (data) => {
+            heartCheck.start();
+            console.log('-onopen-连接已准备好--', data);
+            if (websocketTimeout) {
+                console.log('--websocketTimeout--', websocketTimeout);
+                clearTimeout(websocketTimeout);
+            }
+        }
+
+        // 关闭连接
+        client.onclose = (data) => {
+            console.log('-onclose-关闭连接--', data);
+            reconnect();
+        }
+
+        // 错误处理
+        client.onerror = (data) => {
+            console.log('-onerror-错误处理--', data);
+        }
+    }
+
+    /**
+     * 创建socket实例
+     * @param url
+     */
+    function getWebsocket(url) {
+        if (!websocket) {
+            websocket = new WebSocket(url);
+        }
+        return websocket;
+    }
+
+    /**
+     * 重新连接
+     */
+    function reconnect() {
+        if (needReconnect) {
+            websocketTimeout = window.setTimeout(() => {
+                console.log("重新连接");
+                openSocket();
+            }, 1000);
+        }
+    }
+
+    /**
+     * 处理收到的数据
+     * @param data
+     * @returns
+     */
+
+    function sendMessage(data) {
+        // 发送数据
+        if (websocket) {
+            websocket.send(data);
+        }
+    }
+
+    /**
+     * 处理收到的数据
+     * @param mes
+     * @returns
+     */
+    function receiveMessage(mes) {
+        $('#mesList').append("<li>" + JSON.stringify(mes.data) + "</li>")
+    }
+
+    /**
+     * 发送post请求
+     * @param mes 消息
+     * @param url 路径
+     */
+    function post(mes, url) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify(mes),
+            contentType: "application/json"
+        });
+    }
+</script>
+<script src="jquery-2.1.4.min.js"></script>
+<body>
+<div style="position:relative;float: left">
+    <h1>Websocket消息订阅测试页面</h1>
+    <ul id="mesList"><h2>消息列表</h2></ul>
+</div>
+<div style="position:relative;float: right;flex-flow: column">
+    <div>
+        <input type="button" value="开启WS" onclick="openSocket('ws://localhost:8085/websocket')">
+    </div>
+    <div>
+        <input type="button" value="订阅主题" onclick="sendMessage(JSON.stringify(subscribe))">
+    </div>
+    <div>
+        <input type="button" value="发送消息" onclick="post(mes(new Date().getTime()),'http://localhost:8080/mq/producer/send')">
+    </div>
+    <div>
+        <input type="button" value="取消订阅" onclick="sendMessage(JSON.stringify(unSubscribe))">
+    </div>
+</div>
+</body>
+</html>
