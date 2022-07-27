@@ -30,12 +30,18 @@ public class NettyWebsocketServer {
     @Value("${websocket.port:8085}")
     private Integer port;
 
+    @Value(("${netty.bossGroupSize:1}"))
+    private Integer bossGroupSize;
+
+    @Value(("${netty.workerGroupSize:8}"))
+    private Integer workerGroupSize;
+
     private final static Logger logger = LoggerFactory.getLogger(NettyWebsocketServer.class);
 
     public void start() {
         logger.info("启动websocket服务...");
-        NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        NioEventLoopGroup workerGroup = new NioEventLoopGroup(4);
+        NioEventLoopGroup bossGroup = new NioEventLoopGroup(bossGroupSize);
+        NioEventLoopGroup workerGroup = new NioEventLoopGroup(workerGroupSize);
         try {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workerGroup)

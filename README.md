@@ -606,6 +606,30 @@ function sendMessage(data) {
 
 [测试文件]: rest
 
+### 1.8 压测
+
+压测环境：
+
+- jdk1.8.0_321 -Xmx1G -Xms1G
+
+- jmeter5.5 
+
+  [压测文件]: doc/websocket压测.jmx
+
+- jprofiler12.0.4（监控jvm运行信息）
+
+  [监控快照]: doc/websocket_JProfiler.jps
+
+测试结果：
+
+- 5000样本测试结果
+
+  ![summary](doc/websocket5000.jpg)
+
+- 10000样本测试结果
+
+![summary](doc/websocket10000.jpg)
+
 # 2.概要设计
 
 ## 2.1 整体设计流程图

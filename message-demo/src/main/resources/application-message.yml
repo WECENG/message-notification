@@ -1,3 +1,6 @@
+netty:
+  bossGroupSize: 1
+  workerGroupSize: 16
 websocket:
   server:
     enable: true

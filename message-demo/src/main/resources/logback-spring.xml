@@ -63,6 +63,7 @@
     </appender>
 
     <logger name="org.apache.kafka.clients" level="ERROR"/>
+    <logger name="org.apache.kafka.common" level="ERROR"/>
     <logger name="org.springframework.kafka" level="ERROR"/>
 
     <!--控制台和日志文件输出级别-->
