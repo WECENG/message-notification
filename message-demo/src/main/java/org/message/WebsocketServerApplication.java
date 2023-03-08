@@ -1,6 +1,6 @@
 package org.message;
 
-import org.message.client.netty.NettyWebsocketServer;
+import org.message.server.netty.NettyWebsocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

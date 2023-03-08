@@ -11,7 +11,7 @@ import org.message.dto.MessageDTO;
  * @author WECENG
  * @since 2020/12/28 13:50
  */
-public interface MessageReceiverService {
+public interface MessageReceiver {
 
     /**
      * 消费消息

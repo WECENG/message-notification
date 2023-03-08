@@ -1,7 +1,7 @@
 package org.message.web.controller;
 
 import org.message.dto.MessageDTO;
-import org.message.producer.MessageProducerService;
+import org.message.producer.MessageProducer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +24,13 @@ import javax.validation.Valid;
 public class ProducerController {
 
     @Autowired(required = false)
-    private MessageProducerService messageProducerService;
+    private MessageProducer messageProducer;
 
 
     @PostMapping(value = "/send")
     @ApiOperation(value = "发送消息")
     public void syncSend(@Valid @RequestBody MessageDTO messageDTO) {
-        messageProducerService.sendMessage(messageDTO);
+        messageProducer.sendMessage(messageDTO);
     }
 
 }

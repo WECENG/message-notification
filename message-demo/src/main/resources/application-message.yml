@@ -6,7 +6,7 @@ websocket:
     enable: true
   # mq类型，rabbitmq、kafka、rocketmq
   mq:
-    type: kafka
+    type: rocketmq
   # websocket端口与uri
   port: 8085
   uri: /websocket
@@ -52,13 +52,13 @@ spring:
       missing-topics-fatal: false
 # rocketmq配置
 rocketmq:
-  name-server: 127.0.0.1:9876
-  topic: bossMqTopic
+  name-server: 192.168.1.108:10003
+  topic: mq
   consumer:
-    group: bossMqConsumerGroup
+    group: consumer
     acess-key: boss
     secret-key: qinghua123@
   producer:
-    group: bossMqProducerGroup
+    group: producer
     access-key: boss
     secret-key: qinghua123@

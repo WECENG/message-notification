@@ -1,4 +1,4 @@
-package org.message.serviceimpl.callback;
+package org.message.server.callback;
 
 import org.message.producer.RabbitSendCallback;
 import org.slf4j.Logger;

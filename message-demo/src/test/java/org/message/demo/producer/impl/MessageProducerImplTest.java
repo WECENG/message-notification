@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import org.junit.jupiter.api.Test;
 import org.message.SpringBootServerApplication;
 import org.message.dto.MessageDTO;
-import org.message.producer.MessageProducerService;
+import org.message.producer.MessageProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,10 +21,10 @@ import java.util.Map;
  * @since 2021/2/1 17:57
  */
 @SpringBootTest(classes = SpringBootServerApplication.class)
-public class MessageProducerServiceImplTest {
+public class MessageProducerImplTest {
 
     @Autowired
-    private MessageProducerService messageProducerService;
+    private MessageProducer messageProducer;
 
     @Test
     public void sendMessage() {
@@ -38,7 +38,7 @@ public class MessageProducerServiceImplTest {
         params.put("creator", "创建人");
         params.put("createTime", new Date());
         messageDTO.setPayload(JSON.toJSONString(params));
-        messageProducerService.sendMessage(messageDTO);
+        messageProducer.sendMessage(messageDTO);
     }
 
 }

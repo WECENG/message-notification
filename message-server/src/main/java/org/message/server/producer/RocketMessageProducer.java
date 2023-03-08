@@ -1,7 +1,7 @@
-package org.message.serviceimpl.impl;
+package org.message.server.producer;
 
 import org.message.dto.MessageDTO;
-import org.message.producer.MessageProducerService;
+import org.message.producer.MessageProducer;
 import org.message.producer.RocketSendCallback;
 import org.message.producer.SendCallback;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -18,9 +18,9 @@ import org.springframework.stereotype.Service;
  * @author WECENG
  * @since 2020/12/25 12:46
  */
-@Service("messageProducerService")
+@Service("messageProducer")
 @ConditionalOnProperty(prefix = "websocket.mq", name = "type", havingValue = "rocketmq")
-public class RocketMessageProducerServiceImpl implements MessageProducerService {
+public class RocketMessageProducer implements MessageProducer {
 
     @Autowired
     RocketMQTemplate rocketMqTemplate;

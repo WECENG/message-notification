@@ -1,7 +1,7 @@
-package org.message.serviceimpl.impl;
+package org.message.server.producer;
 
 import org.message.dto.MessageDTO;
-import org.message.producer.MessageProducerService;
+import org.message.producer.MessageProducer;
 import org.message.producer.SendCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,14 +15,14 @@ import org.springframework.stereotype.Service;
  * @author WECENG
  * @since 2021/9/27 20:23
  */
-@Service("messageProducerService")
+@Service("messageProducer")
 @ConditionalOnProperty(prefix = "websocket.mq", name = "type", havingValue = "false", matchIfMissing = true)
-public class DefaultMessageProducerServiceImpl implements MessageProducerService {
+public class DefaultMessageProducer implements MessageProducer {
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMessageProducerServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMessageProducer.class);
 
-    public DefaultMessageProducerServiceImpl() {
+    public DefaultMessageProducer() {
         LOGGER.error("未配置websocket.mq.type，无法正常发送mq消息");
     }
 

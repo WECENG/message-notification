@@ -5,8 +5,8 @@ import org.message.demo.web.constant.CommonConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.message.dto.MessageDTO;
+import org.message.producer.MessageProducer;
 import org.message.serviceapi.pojo.MessageRuleDetail;
-import org.message.producer.MessageProducerService;
 import org.message.serviceapi.rule.MessageSubscribeRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -30,7 +30,7 @@ public class MessageSendDemoController {
     private MessageSubscribeRuleService subscribeRuleService;
 
     @Autowired
-    private MessageProducerService messageProducerService;
+    private MessageProducer messageProducer;
 
     @PostMapping
     @ApiOperation("消息下发demo")
@@ -64,7 +64,7 @@ public class MessageSendDemoController {
             ruleList.forEach(rule -> {
                 messageDTO.setMessageId(UUID.randomUUID().toString().replace("-", "").substring(0,20));
                 messageDTO.setTopic(rule);
-                messageProducerService.sendMessage(messageDTO);
+                messageProducer.sendMessage(messageDTO);
             });
         }
     }

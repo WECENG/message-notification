@@ -1,8 +1,8 @@
-package org.message.client.consumer;
+package org.message.client.listener;
 
 import com.rabbitmq.client.Channel;
 import org.message.constant.MQConstant;
-import org.message.consumer.MessageReceiverService;
+import org.message.consumer.MessageReceiver;
 import org.message.dto.MessageDTO;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.amqp.support.AmqpHeaders;
@@ -25,12 +25,12 @@ import static org.springframework.amqp.rabbit.connection.PublisherCallbackChanne
  * @author WECENG
  * @since 2020/7/29 9:05
  */
-@Component("messageReceiver")
+@Component("messageListener")
 @ConditionalOnProperty(prefix = "websocket.mq", name = "type", havingValue = "rabbitmq")
 public class RabbitMessageListener {
 
     @Autowired
-    private MessageReceiverService messageReceiverService;
+    private MessageReceiver messageReceiver;
 
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(name = MQConstant.DEFAULT_QUEUE),
@@ -49,7 +49,7 @@ public class RabbitMessageListener {
                 .payload(payload)
                 .broadcast(broadcast)
                 .build();
-        messageReceiverService.receive(messageDTO);
+        messageReceiver.receive(messageDTO);
         mqChannel.basicAck(deliveryTag, true);
     }
 

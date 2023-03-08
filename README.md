@@ -77,7 +77,7 @@ import com.alibaba.fastjson.JSON;
 import org.junit.jupiter.api.Test;
 import org.message.SpringBootServerApplication;
 import org.message.dto.MessageDTO;
-import org.message.producer.MessageProducerService;
+import org.message.producer.MessageProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -678,7 +678,7 @@ function sendMessage(data) {
 
 
 ```
-  重写方式（1）：切面将失效 see#org.message.client.consumer.MessageReceiverAspect
+  重写方式（1）：切面将失效 see#org.message.server.receiver.MessageReceiverAspect
   @Primary
   @Service
   public class MessageReceiveServiceImpl implements MessageReceiverService {
@@ -691,7 +691,7 @@ function sendMessage(data) {
       }
   }
  
-  重写方式（2）：切面依然生效 see#org.message.client.consumer.MessageReceiverAspect
+  重写方式（2）：切面依然生效 see#org.message.server.receiver.MessageReceiverAspect
   @Primary
   @Service
   public class MessageReceiveServiceImpl extends DefaultMessageReceiverServiceImpl {
@@ -1210,7 +1210,7 @@ public interface ChannelId extends Serializable, Comparable<ChannelId> {
 - MessageReceiverAspect：切面类，用于处理消息历史记录持久化以及消息实时推送至前端服务。源码如下：
 
 ```
-package org.message.client.consumer;
+package org.message.client.listener;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tsieframework.core.base.enums.fastjson.TsieSerializeConfig;
@@ -1256,7 +1256,7 @@ public class MessageReceiverAspect {
     @Autowired
     private ChannelManager channelManager;
 
-    @Pointcut("execution(* org.message.client.consumer.DefaultMessageReceiverServiceImpl.receive(..))")
+    @Pointcut("execution(* org.message.server.receiver.DefaultMessageReceiver.receive(..))")
     public void pointcut(){}
 
     @Before("pointcut()")

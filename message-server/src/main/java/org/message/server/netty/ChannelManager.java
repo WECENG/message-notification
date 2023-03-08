@@ -1,4 +1,4 @@
-package org.message.client.netty;
+package org.message.server.netty;
 
 import org.message.dto.WebsocketMes;
 import org.message.dto.WebsocketChannel;
@@ -121,7 +121,7 @@ public class ChannelManager {
      * 匹配管道
      *
      * @param channelId 管道id
-     * @return
+     * @return 通道
      */
     public Channel findChannel(String channelId) {
         if (StringUtils.isEmpty(channelId)) {
@@ -133,7 +133,7 @@ public class ChannelManager {
     /**
      * 获取websocket连接信息集合
      *
-     * @return
+     * @return 通道信息列表
      */
     public List<WebsocketChannel> getWebsocketChannelList() {
         return websocketChannelList;

@@ -1,8 +1,8 @@
-package org.message.serviceimpl.impl;
+package org.message.server.producer;
 
 import org.message.constant.MQConstant;
 import org.message.dto.MessageDTO;
-import org.message.producer.MessageProducerService;
+import org.message.producer.MessageProducer;
 import org.message.producer.RabbitSendCallback;
 import org.message.producer.SendCallback;
 import org.springframework.amqp.core.Message;
@@ -23,9 +23,9 @@ import java.nio.charset.StandardCharsets;
  * @author WECENG
  * @since 2020/7/23 14:20
  */
-@Service("messageProducerService")
+@Service("messageProducer")
 @ConditionalOnProperty(prefix = "websocket.mq", name = "type", havingValue = "rabbitmq")
-public class RabbitMessageProducerServiceImpl implements MessageProducerService {
+public class RabbitMessageProducer implements MessageProducer {
 
     @Autowired
     RabbitTemplate rabbitTemplate;

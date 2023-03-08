@@ -1,8 +1,8 @@
-package org.message.serviceimpl.impl;
+package org.message.server.producer;
 
 import org.message.dto.MessageDTO;
 import org.message.producer.KafkaSendCallback;
-import org.message.producer.MessageProducerService;
+import org.message.producer.MessageProducer;
 import org.message.producer.SendCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,9 +18,9 @@ import org.springframework.stereotype.Service;
  * @author WECENG
  * @since 2020/12/26 14:30
  */
-@Service("messageProducerService")
+@Service("messageProducer")
 @ConditionalOnProperty(prefix = "websocket.mq", name = "type", havingValue = "kafka")
-public class KafkaMessageProducerServiceImpl implements MessageProducerService {
+public class KafkaMessageProducer implements MessageProducer {
 
     @Autowired
     KafkaTemplate<String, MessageDTO> kafkaTemplate;

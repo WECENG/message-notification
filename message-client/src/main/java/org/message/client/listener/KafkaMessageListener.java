@@ -1,6 +1,6 @@
-package org.message.client.consumer;
+package org.message.client.listener;
 
-import org.message.consumer.MessageReceiverService;
+import org.message.consumer.MessageReceiver;
 import org.message.dto.MessageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -18,16 +18,16 @@ import java.util.List;
  * @author WECENG
  * @since 2020/12/26 11:28
  */
-@Component("messageReceiver")
+@Component("messageListener")
 @ConditionalOnProperty(prefix = "websocket.mq", name = "type", havingValue = "kafka")
 public class KafkaMessageListener{
 
     @Autowired
-    private MessageReceiverService messageReceiverService;
+    private MessageReceiver messageReceiver;
 
     @KafkaListener(topicPartitions = {@TopicPartition(topic = "${spring.kafka.topic}", partitions = "${spring.kafka.partition:0}")})
     public void onMessage(List<MessageDTO> messageDTOList) {
-        messageDTOList.forEach(messageRequest -> messageReceiverService.receive(messageRequest));
+        messageDTOList.forEach(messageRequest -> messageReceiver.receive(messageRequest));
     }
 
 }

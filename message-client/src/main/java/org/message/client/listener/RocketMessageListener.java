@@ -1,6 +1,6 @@
-package org.message.client.consumer;
+package org.message.client.listener;
 
-import org.message.consumer.MessageReceiverService;
+import org.message.consumer.MessageReceiver;
 import org.message.dto.MessageDTO;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -16,17 +16,17 @@ import org.springframework.stereotype.Component;
  * @author WECENG
  * @since 2020/12/25 10:24
  */
-@Component("messageReceiver")
+@Component("messageListener")
 @ConditionalOnProperty(prefix = "websocket.mq", name = "type", havingValue = "rocketmq")
 @RocketMQMessageListener(nameServer = "${rocketmq.name-server}", topic = "${rocketmq.topic}", consumerGroup = "${rocketmq.consumer.group}")
 public class RocketMessageListener implements RocketMQListener<MessageDTO> {
 
     @Autowired
-    private MessageReceiverService messageReceiverService;
+    private MessageReceiver messageReceiver;
 
     @Override
     public void onMessage(MessageDTO messageDTO) {
-        messageReceiverService.receive(messageDTO);
+        messageReceiver.receive(messageDTO);
     }
 
 

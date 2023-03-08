@@ -11,7 +11,7 @@ import org.message.dto.MessageDTO;
  * @author WECENG
  * @since 2020/7/23 12:39
  */
-public interface MessageProducerService {
+public interface MessageProducer {
     /**
      * 发送消息
      *

@@ -1,4 +1,4 @@
-package org.message.client.consumer;
+package org.message.server.receiver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,8 +8,8 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.message.client.netty.ChannelManager;
 import org.message.dto.MessageDTO;
+import org.message.server.netty.ChannelManager;
 import org.message.serviceapi.dto.MessageLogRespDTO;
 import org.message.serviceapi.enums.MesLogStatusEnum;
 import org.message.serviceapi.pojo.MessageLogDO;
@@ -46,7 +46,7 @@ public class MessageReceiverAspect {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Pointcut("execution(* org.message.client.consumer.DefaultMessageReceiverServiceImpl.receive(..))")
+    @Pointcut("execution(* org.message.server.receiver.DefaultMessageReceiver.receive(..))")
     public void pointcut() {
     }
 

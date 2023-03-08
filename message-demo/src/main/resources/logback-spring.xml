@@ -2,7 +2,7 @@
 <configuration>
 
     <property name="server_name" value="operation" />
-    <property name="log_dir" value="/data/logs/operation-service" />
+    <property name="log_dir" value="${user.home}" />
     <property name="maxFileSize" value="50MB" />
     <property name="maxHistory" value="180" />
 

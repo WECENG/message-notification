@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.message.serviceapi.pojo.MessageLogDO;
 import org.message.serviceapi.record.MessageLogService;
 import org.message.serviceimpl.mapper.MessageLogMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 /**
  * <p>
